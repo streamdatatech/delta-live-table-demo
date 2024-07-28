@@ -6,7 +6,11 @@ from datetime import datetime,timezone
 
 # COMMAND ----------
 
-@dlt.table
+@dlt.table(
+    comment="Customer Bronze Table",
+    table_properties={"quality": "bronze"},
+    path="/mnt/bronze/TripManagement/Customers",
+)
 def customers_bronze():
     return (
         spark.readStream.format("cloudFiles")
@@ -19,6 +23,7 @@ def customers_bronze():
 @dlt.table(
     comment="Customer Silver Table",
     table_properties={"quality": "silver"},
+    path="/mnt/silver/TripManagement/Customers",
 )
 def customers_silver():
     return (
@@ -35,7 +40,11 @@ def customers_silver():
 
 # COMMAND ----------
 
-@dlt.table
+@dlt.table(
+    comment="Driver Bronze Table",
+    table_properties={"quality": "bronze"},
+    path="/mnt/bronze/TripManagement/Drivers",
+)
 def drivers_bronze():
     return (
         spark.readStream.format("cloudFiles")
@@ -48,6 +57,7 @@ def drivers_bronze():
 @dlt.table(
     comment="Driver Silver Table",
     table_properties={"quality": "silver"},
+    path="/mnt/silver/TripManagement/Drivers",
 )
 def drivers_silver():
     return (
@@ -65,7 +75,11 @@ def drivers_silver():
 
 # COMMAND ----------
 
-@dlt.table
+@dlt.table(
+    comment="Trip Bronze Table",
+    table_properties={"quality": "bronze"},
+    path="/mnt/bronze/TripManagement/Trips",
+)
 def trips_bronze():
     return (
         spark.readStream.format("cloudFiles")
@@ -78,6 +92,7 @@ def trips_bronze():
 @dlt.table(
     comment="Trip Silver Table",
     table_properties={"quality": "silver"},
+    path="/mnt/silver/TripManagement/Trips",
 )
 def trips_silver():
     return (
@@ -101,6 +116,7 @@ def trips_silver():
 @dlt.table(
     comment="Trip Gold Table",
     table_properties={"quality": "gold"},
+    path="/mnt/gold/TripManagement/Trips",
 )
 def trips_gold():
     return (
