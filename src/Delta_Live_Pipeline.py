@@ -10,6 +10,7 @@ from datetime import datetime,timezone
     comment="Customer Bronze Table",
     table_properties={"quality": "bronze"},
     path="/mnt/bronze/TripManagement/Customers",
+    
 )
 def customers_bronze():
     return (
@@ -25,6 +26,7 @@ def customers_bronze():
     table_properties={"quality": "silver"},
     path="/mnt/silver/TripManagement/Customers",
 )
+@dlt.expect_or_drop("Email and Name should not be NUll", "Email IS NOT NULL and Name IS NOT NULL")
 def customers_silver():
     return (
         dlt.read("customers_bronze")
@@ -59,6 +61,7 @@ def drivers_bronze():
     table_properties={"quality": "silver"},
     path="/mnt/silver/TripManagement/Drivers",
 )
+@dlt.expect_or_drop("Email and Name should not be NUll", "Email IS NOT NULL and Name IS NOT NULL")
 def drivers_silver():
     return (
         dlt.read("drivers_bronze")
@@ -149,3 +152,9 @@ def trips_gold():
             col("TripsStatus").alias("TripsStatus")
         )
     )
+
+# COMMAND ----------
+
+@dlt.view
+def trip_count_by_drivers():
+    return dlt.read("trips_gold").groupBy("DriverEmail").count()
