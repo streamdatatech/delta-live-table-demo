@@ -1,4 +1,19 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC ### Delta Live Table Demo. Features to be showcased.
+# MAGIC - Create Tables and Materialized Views in different layers and how the data flows from one layer to another.
+# MAGIC - Filter bad data using Expect
+# MAGIC - SCD Type implementation
+# MAGIC - Change Data Feed
+# MAGIC - Scheema Evolution
+# MAGIC
+# MAGIC ### Optional Topics
+# MAGIC - Flow
+# MAGIC
+# MAGIC
+
+# COMMAND ----------
+
 import dlt
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
@@ -75,6 +90,32 @@ def drivers_silver():
         )
         .withColumn("IngestionDateTime", lit(datetime.now(timezone.utc)))
     )
+
+# COMMAND ----------
+
+dlt.create_streaming_table(
+    name="drivers_silver_scd1"
+)
+dlt.apply_changes(
+    target="drivers_silver_scd1",
+    source="drivers_bronze",
+    keys=["car_reg"],
+    stored_as_scd_type="1",
+    sequence_by="date_created"
+)
+
+# COMMAND ----------
+
+dlt.create_streaming_table(
+    name="drivers_silver_scd2"
+)
+dlt.apply_changes(
+    target="drivers_silver_scd2",
+    source="drivers_bronze",
+    keys=["car_reg"],
+    stored_as_scd_type="2",
+    sequence_by="date_created"
+)
 
 # COMMAND ----------
 
