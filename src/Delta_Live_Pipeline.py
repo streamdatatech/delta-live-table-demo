@@ -3,14 +3,8 @@
 # MAGIC ### Delta Live Table Demo. Features to be showcased.
 # MAGIC - Create Tables and Materialized Views in different layers and how the data flows from one layer to another.
 # MAGIC - Filter bad data using Expect
-# MAGIC - SCD Type implementation
 # MAGIC - Change Data Feed
 # MAGIC - Scheema Evolution
-# MAGIC
-# MAGIC ### Optional Topics
-# MAGIC - Flow
-# MAGIC
-# MAGIC
 
 # COMMAND ----------
 
